@@ -242,6 +242,8 @@ Common markdown rules to follow:
 - ✅ Add token estimation functionality
 - ✅ Create caching system with SQLite backend
 - ✅ Implement MD5 hashing for prompt deduplication
+- ✅ Fix docstring formatting and indentation
+- ✅ Auto-format code with black
 
 ### Milestone 3: Question Extraction & Validation
 
