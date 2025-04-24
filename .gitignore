@@ -52,6 +52,8 @@ api_keys.json
 htmlcov/
 .tox/
 .nox/
+scripts/test_api.py
+~/.quizcraft/
 
 # Data and temp files
 *.pdf

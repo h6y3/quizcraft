@@ -1,8 +1,8 @@
-# Project Structure and Development Plan
+# QuizCraft Development Guidelines
 
-## Project Reorganization
+## Project Organization
 
-The project has been reorganized for better maintainability and clarity:
+The project has been organized for better maintainability and clarity:
 
 1. Added proper project documentation:
    - Updated README.md with clearer installation and usage instructions
@@ -18,6 +18,101 @@ The project has been reorganized for better maintainability and clarity:
    - Ensured consistent naming and structure
    - Added version tracking in __init__.py
    - Structured documentation for each milestone
+
+## Coding Standards and Principles
+
+Following principles from "Code Complete" and our experience with this project, we've established these guidelines:
+
+### Architecture and Design
+
+1. **Service-Oriented Architecture**
+   - Use service classes to encapsulate business logic
+   - Create clear separation between data access, business logic, and presentation
+   - Define explicit interfaces between system components
+
+2. **Separation of Concerns**
+   - Each module should have a single, well-defined responsibility
+   - PDF handling, AI integration, and UI should be isolated from each other
+   - Configuration should be separate from business logic
+
+3. **Information Hiding**
+   - Implementation details should be hidden behind well-defined interfaces
+   - Classes should expose only what is necessary for their use
+   - Internal state should be protected from direct external manipulation
+
+### Code Organization
+
+1. **Modular Structure**
+   - Group related functionality into cohesive modules
+   - Maintain clean package hierarchy with logical organization
+   - Use __init__.py files to define public interfaces for each module
+
+2. **Class and Function Design**
+   - Methods should have a single responsibility
+   - Keep method length under 25 lines where reasonable
+   - Functions should operate at a single level of abstraction
+   - Classes should implement a single, clear abstraction
+
+3. **Dependency Management**
+   - Use dependency injection to allow for testing and flexibility
+   - Minimize dependencies between modules
+   - Explicitly import only what is needed
+
+### Code Quality
+
+1. **Error Handling**
+   - Use appropriate exception handling with specific exception types
+   - Validate input parameters and fail early
+   - Include helpful error messages that guide the user
+   - Log errors with sufficient context for debugging
+
+2. **Documentation**
+   - Include docstrings on all public classes and methods
+   - Document parameters, return values, and raised exceptions
+   - Keep comments focused on explaining "why", not "what"
+   - Use type hints consistently
+
+3. **DRY (Don't Repeat Yourself)**
+   - Extract common logic into shared functions or base classes
+   - Use inheritance or composition to reuse code appropriately
+   - Create utilities for frequently used operations
+
+### Performance and Efficiency
+
+1. **Token Optimization**
+   - Intelligently reduce prompt size to stay within limits
+   - Cache API responses to avoid redundant calls
+   - Implement token counting for better cost control
+
+2. **Resource Management**
+   - Use context managers for resource cleanup
+   - Properly close files, database connections, and other resources
+   - Implement timeouts for external API calls
+
+### Testing
+
+1. **Test Coverage**
+   - Write unit tests for all service classes
+   - Mock external dependencies in tests
+   - Test both success and failure paths
+   - Validate edge cases and boundary conditions
+
+2. **Test Organization**
+   - Mirror the application's package structure in the test directory
+   - Use consistent naming conventions for test methods
+   - Separate unit tests from integration tests
+
+### Continuous Improvement
+
+1. **Code Reviews**
+   - Conduct regular code reviews to maintain quality
+   - Verify adherence to these standards
+   - Look for opportunities to refactor and improve
+
+2. **Refactoring**
+   - Regularly refactor to improve code structure
+   - Apply design patterns where appropriate
+   - Eliminate code smells when identified
 
 ## Project Organization
 
