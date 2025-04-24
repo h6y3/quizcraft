@@ -51,6 +51,21 @@ python3 -m quizcraft extract path/to/file.pdf
 
 > **Important:** This environment uses `python3` command instead of `python`. Always use `python3` when running commands.
 
+#### Virtual Environment Activation
+
+**CRITICAL:** Always activate the virtual environment before running any commands:
+
+```bash
+source venv/bin/activate
+```
+
+Running commands without activating the virtual environment will:
+- Use system-installed packages instead of project dependencies
+- Cause "module not found" errors
+- Lead to inconsistent behavior
+
+You must activate the virtual environment in **each new terminal session**. The prompt should show `(venv)` when activated.
+
 ### Development Process
 
 1. Create a branch for each feature or bug fix
@@ -94,6 +109,40 @@ quizcraft/
 
 Following principles from "Code Complete" and our experience with this project,
 we've established these guidelines.
+
+### Common Coding Pitfalls to Avoid
+
+These issues have caused significant debugging time in our project:
+
+1. **Line Length Violations**: Keep all lines under 79 characters to comply with E501
+   - Break long strings across multiple lines using parentheses
+   - Use line continuation for long function calls/parameters
+   - For docstrings, use multi-line format with proper indentation
+
+2. **Import Management**:
+   - Only import what you use (avoid F401 unused import errors)
+   - Use explicit imports instead of wildcard imports (`from module import *`)
+   - Group imports in standard order: stdlib, third-party, local
+
+3. **Indentation Issues**:
+   - Use consistent 4-space indentation
+   - Be careful with line continuation indentation (typically add 4 more spaces)
+   - When breaking function calls/parameters, align properly
+
+4. **String Formatting**:
+   - Prefer f-strings for formatting when possible
+   - For multi-line strings, use consistent indentation
+   - Watch string concatenation across lines carefully
+
+5. **Path Handling**:
+   - Always use absolute paths for file operations
+   - Use `os.path.join()` to ensure cross-platform compatibility
+   - Validate paths exist before operations
+
+6. **Error Handling**:
+   - Never use bare `except:` clauses
+   - Catch specific exceptions and provide meaningful error messages
+   - Use appropriate exception types when raising errors
 
 ### Code Quality
 
@@ -309,15 +358,27 @@ python3 -m quizcraft quiz path/to/file.pdf --use-existing
 ### Linting and Automated Fixes
 
 ```bash
-# Check for linting issues
-python3 -m flake8 quizcraft/
+# Always activate the virtual environment first!
+source venv/bin/activate
 
-# Fix common linting issues with scripts
-python3 scripts/fix_docstrings_final.py
+# Check for linting issues
+python -m flake8 quizcraft/
+
+# Run specific linting checks
+python -m flake8 quizcraft/ --select=E501  # Check line length only
+python -m flake8 quizcraft/ --select=F401  # Check unused imports only
+
+# Fix line length issues with our script
+python scripts/fix_line_length.py
 
 # Auto-format code with black
-python3 -m black quizcraft/
+python -m black --line-length 79 quizcraft/
+
+# Run type checking
+python -m mypy quizcraft/
 ```
+
+Our `fix_line_length.py` script combines Black's formatting with custom fixes for line length issues. Run it before committing to ensure code complies with the 79-character limit.
 
 ## Dependencies
 
@@ -326,4 +387,8 @@ anthropic>=0.18.0
 PyMuPDF>=1.23.5
 pytesseract>=0.3.10
 Pillow>=10.0.0
+python-dotenv>=1.0.0
+flake8>=7.0.0
+black>=24.1.0
+mypy>=1.7.0
 ```
