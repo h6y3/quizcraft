@@ -69,8 +69,7 @@ class ResponseCache:
 
         # Create index for faster pruning
         cursor.execute(
-            "CREATE INDEX IF NOT EXISTS timestamp_idx ON response_cache (
-                timestamp)"
+            "CREATE INDEX IF NOT EXISTS timestamp_idx ON response_cache (timestamp)"
         )
 
         conn.commit()
