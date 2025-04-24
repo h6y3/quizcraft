@@ -1,0 +1,59 @@
+{
+  "questions": [
+    {
+      "question": "What statement is used to implement a decision?",
+      "options": {
+        "A": "while",
+        "B": "if",
+        "C": "for",
+        "D": "import"
+      },
+      "correct_answer": "B",
+      "explanation": "The 'if' statement is used to implement a decision in Python."
+    },
+    {
+      "question": "Which of the following statements is true about the if statement?",
+      "options": {
+        "A": "The |if| statement can have only one condition that evaluates to an integer value.",
+        "B": "The |if| block is optional.",
+        "C": "The |else| block is optional.",
+        "D": "The |if| and |else| blocks can be aligned to any indentation level."
+      },
+      "correct_answer": "C",
+      "explanation": "The 'else' block is optional in an if statement, while the other statements are not true."
+    },
+    {
+      "question": "Which of the following correctly identifies what is wrong with the code snippet below?",
+      "options": {
+        "A": "Nothing, the program runs as intended",
+        "B": "The statement after the |if| statement must be indented",
+        "C": "The statement after the |if| statement and the statement after the |else| statement must be indented",
+        "D": "No colon is needed after the |else| statement"
+      },
+      "correct_answer": "C",
+      "explanation": "The statements after the 'if' and 'else' blocks must be indented to the same level."
+    },
+    {
+      "question": "Assuming that the user provides 95 as input, what is the output of the following code snippet?",
+      "options": {
+        "A": "|x: 0|",
+        "B": "|x: 95|",
+        "C": "|x: 300|",
+        "D": "There is no output due to a syntax error"
+      },
+      "correct_answer": "B",
+      "explanation": "Since the user input is 95, which is less than 300, the 'else' block will execute, and the output will be 'x: 95'."
+    },
+    {
+      "question": "Assuming that the user provides 303 as input, what is the output of the following code snippet?",
+      "options": {
+        "A": "|x: 0|",
+        "B": "|x: 303|",
+        "C": "|x: 300|",
+        "D": "There is no output due to a syntax error."
+      },
+      "correct_answer": "B",
+      "explanation": "Since the user input is 303, which is greater than 300, the 'if' block will execute, and the output will be 'x: 303'."
+    }
+  ]
+}
