@@ -1,5 +1,5 @@
 """
-Configuration settings for the PDF Quiz Generator
+Configuration settings for QuizCraft
 """
 import os
 from dotenv import load_dotenv

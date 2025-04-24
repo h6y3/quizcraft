@@ -1,6 +1,6 @@
-# Contributing to PDF Quiz Generator
+# Contributing to QuizCraft
 
-Thank you for considering contributing to PDF Quiz Generator! This document provides guidelines and instructions for contributing to this project.
+Thank you for considering contributing to QuizCraft! This document provides guidelines and instructions for contributing to this project.
 
 ## Code of Conduct
 
@@ -109,4 +109,4 @@ Not sure where to begin contributing? Look for issues with the labels `good firs
 
 If you need help, you can ask questions by opening an issue with the label `question`.
 
-Thank you for contributing to PDF Quiz Generator!
+Thank you for contributing to QuizCraft!

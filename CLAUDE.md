@@ -22,8 +22,8 @@ The project has been reorganized for better maintainability and clarity:
 ## Project Organization
 
 ```
-pdf-quiz-generator/
-├── pdf_quiz_generator/       # Main package
+quizcraft/
+├── quizcraft/       # Main package
 │   ├── __init__.py
 │   ├── main.py               # Entry point
 │   ├── config.py             # Configuration
@@ -58,7 +58,7 @@ pip install -e .
 python -m unittest discover tests
 
 # Using the CLI
-pdf-quiz-generator extract path/to/file.pdf
+quizcraft extract path/to/file.pdf
 ```
 
 ## Development Milestones
@@ -101,10 +101,10 @@ pdf-quiz-generator extract path/to/file.pdf
 - Add reporting and statistics
 - Integrate all components with proper error handling
 
-# PDF Quiz Generator: Concise Specification
+# QuizCraft: Concise Specification
 
 ```markdown
-# PDF Quiz Generator: Concise Specification
+# QuizCraft: Concise Specification
 
 ## System Overview
 A Python CLI application that processes educational PDFs to extract existing questions and generate new ones using Claude, optimized for token efficiency and cost-effectiveness.
@@ -119,7 +119,7 @@ A Python CLI application that processes educational PDFs to extract existing que
 ## Architecture
 
 ```
-pdf_quiz_generator/
+quizcraft/
 ├── main.py                 # Entry point
 ├── config.py               # Configuration
 ├── pdf/                    # PDF processing
@@ -166,13 +166,13 @@ pdf_quiz_generator/
 
 ```bash
 # Extract questions from PDF
-python -m pdf_quiz_generator extract path/to/file.pdf --save
+python -m quizcraft extract path/to/file.pdf --save
 
 # Generate new questions
-python -m pdf_quiz_generator generate path/to/file.pdf --difficulty medium --num-questions 5
+python -m quizcraft generate path/to/file.pdf --difficulty medium --num-questions 5
 
 # Run interactive quiz
-python -m pdf_quiz_generator quiz path/to/file.pdf --use-existing
+python -m quizcraft quiz path/to/file.pdf --use-existing
 ```
 
 ## Token Efficiency Techniques

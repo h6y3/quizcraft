@@ -1,4 +1,4 @@
-# PDF Quiz Generator
+# QuizCraft
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -22,7 +22,7 @@ A Python CLI application that processes educational PDFs to extract existing que
 
 ## Overview
 
-PDF Quiz Generator helps educators, students, and learners work with educational content more effectively. It solves the problem of manually creating quizzes from educational materials by automating the extraction and generation of high-quality questions from PDF documents.
+QuizCraft helps educators, students, and learners work with educational content more effectively. It solves the problem of manually creating quizzes from educational materials by automating the extraction and generation of high-quality questions from PDF documents.
 
 ## Features
 
@@ -38,15 +38,15 @@ PDF Quiz Generator helps educators, students, and learners work with educational
 ### Option 1: PyPI Installation (Coming Soon)
 
 ```bash
-pip install pdf-quiz-generator
+pip install quizcraft
 ```
 
 ### Option 2: Development Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/hanyuan-nlp/pdf-quiz-generator.git
-cd pdf-quiz-generator
+git clone https://github.com/hanyuan-nlp/quizcraft.git
+cd quizcraft
 
 # Create and activate virtual environment
 python3 -m venv venv
@@ -83,39 +83,39 @@ cp .env.example .env
 
 ```bash
 # Basic extraction
-pdf-quiz-generator extract path/to/file.pdf
+quizcraft extract path/to/file.pdf
 
 # Extract with text segmentation and save to file
-pdf-quiz-generator extract path/to/file.pdf --segment --output extracted_text.json
+quizcraft extract path/to/file.pdf --segment --output extracted_text.json
 
 # Extract without OCR fallback
-pdf-quiz-generator extract path/to/file.pdf --disable-ocr
+quizcraft extract path/to/file.pdf --disable-ocr
 ```
 
 ### Generate Questions from a PDF
 
 ```bash
 # Generate 5 questions with default difficulty
-pdf-quiz-generator generate path/to/file.pdf --num-questions 5
+quizcraft generate path/to/file.pdf --num-questions 5
 
 # Generate questions with specified difficulty
-pdf-quiz-generator generate path/to/file.pdf --difficulty easy|medium|hard
+quizcraft generate path/to/file.pdf --difficulty easy|medium|hard
 
 # Generate questions about specific topic
-pdf-quiz-generator generate path/to/file.pdf --topic "photosynthesis"
+quizcraft generate path/to/file.pdf --topic "photosynthesis"
 ```
 
 ### Interactive Quiz Mode
 
 ```bash
 # Start an interactive quiz with questions from the PDF
-pdf-quiz-generator quiz path/to/file.pdf
+quizcraft quiz path/to/file.pdf
 
 # Use existing questions extracted from the PDF
-pdf-quiz-generator quiz path/to/file.pdf --use-existing
+quizcraft quiz path/to/file.pdf --use-existing
 
 # Save quiz results to a file
-pdf-quiz-generator quiz path/to/file.pdf --save-results results.json
+quizcraft quiz path/to/file.pdf --save-results results.json
 ```
 
 ## Examples
@@ -123,7 +123,7 @@ pdf-quiz-generator quiz path/to/file.pdf --save-results results.json
 ### Example: Extracting Text from a PDF
 
 ```bash
-$ pdf-quiz-generator extract samples/sample.pdf --segment
+$ quizcraft extract samples/sample.pdf --segment
 ✓ Processing samples/sample.pdf
 ✓ Text extraction complete
 ✓ Segmentation complete - identified 15 text segments
@@ -133,7 +133,7 @@ $ pdf-quiz-generator extract samples/sample.pdf --segment
 ### Example: Generating Questions
 
 ```bash
-$ pdf-quiz-generator generate samples/sample.pdf --num-questions 3
+$ quizcraft generate samples/sample.pdf --num-questions 3
 ✓ Processing samples/sample.pdf
 ✓ Text extraction complete
 ✓ Generating questions...
@@ -144,25 +144,25 @@ $ pdf-quiz-generator generate samples/sample.pdf --num-questions 3
 ## Project Structure
 
 ```
-pdf-quiz-generator/
-├── pdf_quiz_generator/       # Main package
-│   ├── pdf/                  # PDF text extraction and processing
-│   │   ├── extractor.py      # Core PDF text extraction
-│   │   └── ocr.py            # OCR functionality for scanned PDFs
-│   ├── ai/                   # Claude API integration
-│   │   ├── client.py         # API client with error handling
-│   │   └── tokens.py         # Token estimation and management
-│   ├── questions/            # Question processing
-│   │   ├── extractor.py      # Existing question extraction
-│   │   └── generator.py      # New question generation
-│   ├── storage/              # Data persistence
-│   │   └── cache.py          # Caching functionality
-│   ├── utils/                # Utility functions
-│   │   └── text.py           # Text processing utilities
-│   └── ui/                   # User interfaces
-│       └── cli.py            # Command-line interface
-├── tests/                    # Unit tests
-└── samples/                  # Sample data
+quizcraft/
+├── quizcraft/               # Main package
+│   ├── pdf/                 # PDF text extraction and processing
+│   │   ├── extractor.py     # Core PDF text extraction
+│   │   └── ocr.py           # OCR functionality for scanned PDFs
+│   ├── ai/                  # Claude API integration
+│   │   ├── client.py        # API client with error handling
+│   │   └── tokens.py        # Token estimation and management
+│   ├── questions/           # Question processing
+│   │   ├── extractor.py     # Existing question extraction
+│   │   └── generator.py     # New question generation
+│   ├── storage/             # Data persistence
+│   │   └── cache.py         # Caching functionality
+│   ├── utils/               # Utility functions
+│   │   └── text.py          # Text processing utilities
+│   └── ui/                  # User interfaces
+│       └── cli.py           # Command-line interface
+├── tests/                   # Unit tests
+└── samples/                 # Sample data
 ```
 
 ## Development Roadmap
@@ -221,7 +221,7 @@ For more comprehensive testing:
 
 ```bash
 # Run tests with coverage report
-pytest --cov=pdf_quiz_generator tests/
+pytest --cov=quizcraft tests/
 
 # Run only fast tests
 pytest -k "not slow" tests/
