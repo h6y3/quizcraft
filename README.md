@@ -3,7 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-A Python CLI application that processes educational PDFs to extract existing questions and generate new ones using Claude, optimized for token efficiency and cost-effectiveness.
+A Python CLI application that processes educational PDFs to extract existing
+questions and generate new ones using Claude, optimized for token efficiency.
 
 ## 📚 Contents
 
@@ -18,16 +19,17 @@ A Python CLI application that processes educational PDFs to extract existing que
 - [Testing](#testing)
 - [Security](#security)
 - [License](#license)
-- [Support](#support)
 
 ## Overview
 
-QuizCraft helps educators, students, and learners work with educational content more effectively. It solves the problem of manually creating quizzes from educational materials by automating the extraction and generation of high-quality questions from PDF documents.
+QuizCraft helps educators, students, and learners work with educational content
+more effectively. It automates the extraction and generation of high-quality
+questions from PDF documents.
 
 ## Features
 
-- **PDF Text Extraction**: Extract text from PDFs with OCR support for scanned documents
-- **Question Identification**: Automatically identify and extract existing questions
+- **PDF Text Extraction**: Extract text from PDFs with OCR support
+- **Question Identification**: Automatically identify existing questions
 - **AI-Powered Generation**: Generate new questions based on document content
 - **Interactive Quizzing**: Test knowledge with an interactive quiz mode
 - **Token Optimization**: Efficiently use AI tokens to minimize costs
@@ -37,7 +39,7 @@ QuizCraft helps educators, students, and learners work with educational content 
 
 ### Option 1: PyPI Installation (Coming Soon)
 
-```bash
+```python
 pip install quizcraft
 ```
 
@@ -58,7 +60,7 @@ pip install -e .
 
 ### API Credentials
 
-This application uses the Anthropic Claude API for AI features. You'll need to set up your credentials:
+This application uses the Anthropic Claude API for AI features.
 
 1. Get an API key from [Anthropic](https://console.anthropic.com/)
 2. Copy `.env.example` to `.env` and add your API key:
@@ -143,18 +145,23 @@ $ quizcraft generate samples/sample.pdf --num-questions 3
 
 ## Project Structure
 
-```
+```python
 quizcraft/
 ├── quizcraft/               # Main package
-│   ├── pdf/                 # PDF text extraction and processing
-│   │   ├── extractor.py     # Core PDF text extraction
-│   │   └── ocr.py           # OCR functionality for scanned PDFs
+│   ├── __init__.py
+│   ├── __main__.py          # Entry point for CLI
+│   ├── main.py              # Application core
+│   ├── config.py            # Configuration handling
+│   ├── pdf/                 # PDF processing
+│   │   ├── extractor.py     # PDF text extraction
+│   │   ├── ocr.py           # OCR for scanned PDFs
+│   │   └── service.py       # PDF service layer
 │   ├── ai/                  # Claude API integration
-│   │   ├── client.py        # API client with error handling
-│   │   └── tokens.py        # Token estimation and management
-│   ├── questions/           # Question processing
-│   │   ├── extractor.py     # Existing question extraction
-│   │   └── generator.py     # New question generation
+│   │   ├── client.py        # API client
+│   │   ├── credentials.py   # API key management
+│   │   ├── prompts.py       # Prompt templates
+│   │   ├── service.py       # AI service logic
+│   │   └── tokens.py        # Token management
 │   ├── storage/             # Data persistence
 │   │   └── cache.py         # Caching functionality
 │   ├── utils/               # Utility functions
@@ -175,7 +182,7 @@ This project is being developed in milestones:
    - Text segmentation with content type classification
    - Command-line interface for extraction
 
-2. **Claude API Integration & Caching** (Current)
+2. **Claude API Integration & Caching** 🔄 (Current)
    - API client with error handling
    - Token estimation
    - Caching system with SQLite
@@ -229,12 +236,13 @@ pytest -k "not slow" tests/
 
 ## Security
 
-- API keys and credentials are stored in `.env` files which are not committed to git
+- API keys and credentials are stored in `.env` files which are not committed
+  to git
 - Use `.env.example` as a template for required environment variables
 - Never commit sensitive information to the repository
 - Regular dependency updates to address security vulnerabilities
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+This project is licensed under the MIT License - see the [LICENSE](LICENSE)
+file for details.
