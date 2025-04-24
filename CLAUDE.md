@@ -34,12 +34,22 @@ source venv/bin/activate
 # Install package in development mode
 pip install -e .
 
+# Install development dependencies
+pip install flake8 mypy black
+
 # Running tests
-python -m unittest discover tests
+python3 -m unittest discover tests
+
+# Running linters
+python3 -m flake8 quizcraft/
+python3 -m mypy quizcraft/
+python3 -m black quizcraft/
 
 # Using the CLI
-quizcraft extract path/to/file.pdf
+python3 -m quizcraft extract path/to/file.pdf
 ```
+
+> **Important:** This environment uses `python3` command instead of `python`. Always use `python3` when running commands.
 
 ### Development Process
 
@@ -114,8 +124,20 @@ we've established these guidelines.
 - Use a markdown linter for documentation files (e.g., pymarkdown)
 - Run type checking with mypy
 - Format code with black
-- Use flake8 for code quality enforcement
+- Use flake8 for code quality enforcement (see Common Flake8 Rules below)
 - Ensure all files end with a single newline
+
+##### Common Flake8 Rules
+
+- E501: Line too long (keep under 79 characters)
+- E302: Expected 2 blank lines between top-level functions/classes
+- E301: Expected 1 blank line between methods in a class
+- F401: Imported module not used
+- W293: Blank line contains whitespace
+- E122/E128: Indentation issues in continuation lines
+- E226: Missing whitespace around arithmetic operator
+- W504: Line break after binary operator
+- W391: Blank line at end of file
 
 ##### Markdown Style Guide
 
@@ -272,14 +294,27 @@ Common markdown rules to follow:
 
 ```bash
 # Extract questions from PDF
-python -m quizcraft extract path/to/file.pdf --save
+python3 -m quizcraft extract path/to/file.pdf --save
 
 # Generate new questions
-python -m quizcraft generate path/to/file.pdf --difficulty medium \
+python3 -m quizcraft generate path/to/file.pdf --difficulty medium \
   --num-questions 5
 
 # Run interactive quiz
-python -m quizcraft quiz path/to/file.pdf --use-existing
+python3 -m quizcraft quiz path/to/file.pdf --use-existing
+```
+
+### Linting and Automated Fixes
+
+```bash
+# Check for linting issues
+python3 -m flake8 quizcraft/
+
+# Fix common linting issues with scripts
+python3 scripts/fix_docstrings_final.py
+
+# Auto-format code with black
+python3 -m black quizcraft/
 ```
 
 ## Dependencies
