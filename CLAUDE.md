@@ -49,7 +49,8 @@ python3 -m black quizcraft/
 python3 -m quizcraft extract path/to/file.pdf
 ```
 
-> **Important:** This environment uses `python3` command instead of `python`. Always use `python3` when running commands.
+> **Important:** This environment uses `python3` command instead of `python`.
+> Always use `python3` when running commands.
 
 #### Virtual Environment Activation
 
@@ -64,7 +65,8 @@ Running commands without activating the virtual environment will:
 - Cause "module not found" errors
 - Lead to inconsistent behavior
 
-You must activate the virtual environment in **each new terminal session**. The prompt should show `(venv)` when activated.
+You must activate the virtual environment in **each new terminal session**.
+The prompt should show `(venv)` when activated.
 
 ### Development Process
 
@@ -114,7 +116,8 @@ we've established these guidelines.
 
 These issues have caused significant debugging time in our project:
 
-1. **Line Length Violations**: Keep all lines under 79 characters to comply with E501
+1. **Line Length Violations**: Keep all lines under 79 characters to comply
+   with E501
    - Break long strings across multiple lines using parentheses
    - Use line continuation for long function calls/parameters
    - For docstrings, use multi-line format with proper indentation
@@ -170,7 +173,7 @@ These issues have caused significant debugging time in our project:
 
 #### Validation and Linting
 
-- Use a markdown linter for documentation files (e.g., pymarkdown)
+- Use a markdown linter for documentation files (pymarkdownlnt)
 - Run type checking with mypy
 - Format code with black
 - Use flake8 for code quality enforcement (see Common Flake8 Rules below)
@@ -190,30 +193,51 @@ These issues have caused significant debugging time in our project:
 
 ##### Markdown Style Guide
 
-We use the `pymarkdown` linter to enforce markdown styling rules. Run:
+We use the `pymarkdownlnt` linter to enforce markdown styling rules. Run:
 
 ```bash
-pymarkdown scan /path/to/file.md
+# Install the markdown linter
+pip install pymarkdownlnt
+
+# Check markdown files for issues
+pymarkdownlnt scan *.md
+
+# Fix automatically fixable issues
+pymarkdownlnt fix *.md
 ```
 
-Common markdown rules to follow:
+For more specific rule checking, you can enable or disable specific rules:
 
-1. **Line Length**: Keep lines under 80 characters
-2. **Trailing Spaces**: Never leave trailing spaces at end of lines
-3. **Code Blocks**:
+```bash
+# Check only specific rules
+pymarkdownlnt --enable-rules MD013,MD041 scan *.md
+
+# Disable specific rules for a scan
+pymarkdownlnt --disable-rules MD013 scan *.md
+```
+
+Common markdown linting rules we enforce:
+
+1. **MD013**: Line length - Keep lines under 80 characters
+2. **MD009**: Trailing spaces - Never leave trailing spaces at end of lines
+3. **MD031/MD040**: Code blocks
    - Always specify a language for fenced code blocks
    - Always surround code blocks with blank lines
    - Example: \```python instead of just \```
-4. **Headers**:
+4. **MD022/MD024/MD025/MD041**: Headers
    - Always surround headers with blank lines (before and after)
    - Use a single H1 (#) at the top of the document
    - No duplicate headers with identical text
    - Use proper header hierarchy (don't skip levels)
-5. **Emphasis**: Don't use emphasis (bold, italic) instead of proper headers
-6. **Lists**: Maintain consistent indentation in nested lists
-7. **End of File**: Ensure files end with exactly one newline (not zero, not multiple)
-8. **Line Breaks**: Use blank lines to separate paragraphs, not trailing spaces
-9. **HTML**: Avoid raw HTML in markdown files when possible
+5. **MD036**: Emphasis - Don't use emphasis (bold, italic) instead of proper headers
+6. **MD007**: Lists - Maintain consistent indentation in nested lists
+7. **MD047**: End of File - Ensure files end with exactly one newline
+8. **MD012**: Line Breaks - Use blank lines to separate paragraphs, not
+   trailing spaces
+9. **MD033**: HTML - Avoid raw HTML in markdown files when possible
+
+You can create a `.pymarkdown` configuration file in the project root to
+customize rule settings if needed.
 
 ### Architecture and Design
 
@@ -378,7 +402,9 @@ python -m black --line-length 79 quizcraft/
 python -m mypy quizcraft/
 ```
 
-Our `fix_line_length.py` script combines Black's formatting with custom fixes for line length issues. Run it before committing to ensure code complies with the 79-character limit.
+Our `fix_line_length.py` script combines Black's formatting with custom fixes
+for line length issues. Run it before committing to ensure code complies with
+the 79-character limit.
 
 ## Dependencies
 
@@ -391,4 +417,5 @@ python-dotenv>=1.0.0
 flake8>=7.0.0
 black>=24.1.0
 mypy>=1.7.0
+pymarkdownlnt>=0.9.0
 ```

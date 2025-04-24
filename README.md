@@ -5,6 +5,7 @@
 
 A Python CLI application that processes educational PDFs to extract existing
 questions and generate new ones using Claude, optimized for token efficiency.
+Currently at **Milestone 2: Claude API Integration & Caching**.
 
 ## 📚 Contents
 
@@ -37,13 +38,7 @@ questions from PDF documents.
 
 ## Installation
 
-### Option 1: PyPI Installation (Coming Soon)
-
-```python
-pip install quizcraft
-```
-
-### Option 2: Development Setup
+### Development Setup
 
 ```bash
 # Clone the repository
@@ -56,7 +51,16 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install the package in development mode
 pip install -e .
+
+# Install development dependencies
+pip install flake8 mypy black pymarkdownlnt
 ```
+
+> **Important:** This environment uses `python3` command instead of `python`.
+> Always use `python3` when running commands.
+
+**CRITICAL:** Always activate the virtual environment before running any commands.
+The prompt should show `(venv)` when activated.
 
 ### API Credentials
 
@@ -77,7 +81,19 @@ cp .env.example .env
   - macOS: `brew install tesseract`
   - Ubuntu/Debian: `apt-get install tesseract-ocr`
   - Windows: [Installer available here](https://github.com/UB-Mannheim/tesseract/wiki)
-- **Dependencies**: Listed in requirements.txt
+- **Dependencies**:
+
+  ```text
+  anthropic>=0.18.0
+  PyMuPDF>=1.23.5
+  pytesseract>=0.3.10
+  Pillow>=10.0.0
+  python-dotenv>=1.0.0
+  flake8>=7.0.0
+  black>=24.1.0
+  mypy>=1.7.0
+  pymarkdownlnt>=0.9.0
+  ```
 
 ## Usage
 
@@ -85,39 +101,39 @@ cp .env.example .env
 
 ```bash
 # Basic extraction
-quizcraft extract path/to/file.pdf
+python3 -m quizcraft extract path/to/file.pdf
 
 # Extract with text segmentation and save to file
-quizcraft extract path/to/file.pdf --segment --output extracted_text.json
+python3 -m quizcraft extract path/to/file.pdf --segment --output extracted_text.json
 
 # Extract without OCR fallback
-quizcraft extract path/to/file.pdf --disable-ocr
+python3 -m quizcraft extract path/to/file.pdf --disable-ocr
 ```
 
 ### Generate Questions from a PDF
 
 ```bash
 # Generate 5 questions with default difficulty
-quizcraft generate path/to/file.pdf --num-questions 5
+python3 -m quizcraft generate path/to/file.pdf --num-questions 5
 
 # Generate questions with specified difficulty
-quizcraft generate path/to/file.pdf --difficulty easy|medium|hard
+python3 -m quizcraft generate path/to/file.pdf --difficulty easy|medium|hard
 
 # Generate questions about specific topic
-quizcraft generate path/to/file.pdf --topic "photosynthesis"
+python3 -m quizcraft generate path/to/file.pdf --topic "photosynthesis"
 ```
 
 ### Interactive Quiz Mode
 
 ```bash
 # Start an interactive quiz with questions from the PDF
-quizcraft quiz path/to/file.pdf
+python3 -m quizcraft quiz path/to/file.pdf
 
 # Use existing questions extracted from the PDF
-quizcraft quiz path/to/file.pdf --use-existing
+python3 -m quizcraft quiz path/to/file.pdf --use-existing
 
 # Save quiz results to a file
-quizcraft quiz path/to/file.pdf --save-results results.json
+python3 -m quizcraft quiz path/to/file.pdf --save-results results.json
 ```
 
 ## Examples
@@ -125,7 +141,7 @@ quizcraft quiz path/to/file.pdf --save-results results.json
 ### Example: Extracting Text from a PDF
 
 ```bash
-$ quizcraft extract samples/sample.pdf --segment
+$ python3 -m quizcraft extract samples/sample.pdf --segment
 ✓ Processing samples/sample.pdf
 ✓ Text extraction complete
 ✓ Segmentation complete - identified 15 text segments
@@ -135,7 +151,7 @@ $ quizcraft extract samples/sample.pdf --segment
 ### Example: Generating Questions
 
 ```bash
-$ quizcraft generate samples/sample.pdf --num-questions 3
+$ python3 -m quizcraft generate samples/sample.pdf --num-questions 3
 ✓ Processing samples/sample.pdf
 ✓ Text extraction complete
 ✓ Generating questions...
@@ -162,6 +178,7 @@ quizcraft/
 │   │   ├── prompts.py       # Prompt templates
 │   │   ├── service.py       # AI service logic
 │   │   └── tokens.py        # Token management
+│   ├── questions/           # Question handling
 │   ├── storage/             # Data persistence
 │   │   └── cache.py         # Caching functionality
 │   ├── utils/               # Utility functions
@@ -169,7 +186,8 @@ quizcraft/
 │   └── ui/                  # User interfaces
 │       └── cli.py           # Command-line interface
 ├── tests/                   # Unit tests
-└── samples/                 # Sample data
+├── samples/                 # Sample data
+└── scripts/                 # Utility scripts
 ```
 
 ## Development Roadmap
@@ -216,23 +234,43 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 Please check out our [Contributing Guidelines](CONTRIBUTING.md) for more details.
 
-## Testing
+## Development
+
+### Testing
 
 Run the unit tests with:
 
 ```bash
-python -m unittest discover tests
+python3 -m unittest discover tests
 ```
 
-For more comprehensive testing:
+### Linting and Formatting
 
 ```bash
-# Run tests with coverage report
-pytest --cov=quizcraft tests/
+# Always activate the virtual environment first!
+source venv/bin/activate
 
-# Run only fast tests
-pytest -k "not slow" tests/
+# Check for linting issues
+python3 -m flake8 quizcraft/
+
+# Run specific linting checks
+python3 -m flake8 quizcraft/ --select=E501  # Check line length only
+python3 -m flake8 quizcraft/ --select=F401  # Check unused imports only
+
+# Fix line length issues with our script
+python3 scripts/fix_line_length.py
+
+# Auto-format code with black
+python3 -m black --line-length 79 quizcraft/
+
+# Run type checking
+python3 -m mypy quizcraft/
+
+# Lint markdown files
+pymarkdownlnt scan *.md
 ```
+
+For more detailed development guidelines, see [CLAUDE.md](CLAUDE.md).
 
 ## Security
 
