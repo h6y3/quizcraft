@@ -5,7 +5,7 @@
 
 A Python CLI application that processes educational PDFs to extract existing
 questions and generate new ones using Claude, optimized for token efficiency.
-Currently at **Milestone 2: Claude API Integration & Caching**.
+Currently at **Milestone 3: Question Extraction & Validation**.
 
 ## 📚 Contents
 
@@ -206,10 +206,11 @@ This project is being developed in milestones:
    - Caching system with SQLite
    - Secure credential management
 
-3. **Question Extraction & Validation** (Planned)
-   - Pattern matching
-   - Question validation
-   - Claude-based extraction
+3. **Question Extraction & Validation** ✅
+   - Pattern matching for multiple-choice questions
+   - Question structure and quality validation 
+   - Claude-based fallback extraction
+   - Question storage in SQLite database
 
 4. **Question Generation** (Planned)
    - Generation by concept

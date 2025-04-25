@@ -8,10 +8,11 @@ on token efficiency and cost-effectiveness.
 
 ### Current Status
 
-We have completed **Milestone 2: Claude API Integration & Caching**. The PDF
-extraction functionality is complete, and the Claude API integration with error
-handling and efficient caching mechanisms has been implemented. We are now
-preparing to start Milestone 3.
+We have completed **Milestone 3: Question Extraction & Validation**. The PDF
+extraction functionality is complete, the Claude API integration with error
+handling and efficient caching mechanisms has been implemented, and we now have
+pattern-based question extraction with AI fallback capability. We are preparing
+to start Milestone 4.
 
 ### Core Features
 
@@ -94,6 +95,11 @@ quizcraft/
 │   │   ├── prompts.py        # Prompt templates
 │   │   └── tokens.py         # Token counting
 │   ├── questions/            # Question handling
+│   │   ├── models.py         # Question data structures
+│   │   ├── extractor.py      # Pattern-based extraction
+│   │   ├── validator.py      # Question validation
+│   │   ├── storage.py        # Database operations
+│   │   └── service.py        # Orchestration layer
 │   ├── storage/              # Caching & persistence
 │   │   └── cache.py          # Cache implementation
 │   ├── utils/                # Utility functions
@@ -300,6 +306,49 @@ customize rule settings if needed.
 - Properly close files, database connections, and other resources
 - Implement timeouts for external API calls
 
+## Technical Debt and Refactoring Plan
+
+After completing Milestone 3, we've identified areas that need improvement:
+
+### Current Issues
+
+1. **Linting Problems**: The questions module has numerous linting issues:
+   - Trailing whitespace
+   - Blank lines with whitespace
+   - Line length violations
+   - Unused imports
+
+2. **Type Annotations**: Inconsistent use of type hints
+
+3. **Testing Gaps**: Limited test coverage for the questions module
+
+4. **Error Handling**: Inconsistent error handling patterns
+
+5. **Resource Management**: Missing context managers for database operations
+
+6. **CLI Integration**: CLI needs to be updated to support question extraction
+
+### Refactoring Plan
+
+1. **Phase 1: Fix Critical Issues**
+   - Apply Black formatter to all code
+   - Remove unused imports
+   - Fix line length violations
+   - Create custom exception classes
+   - Fix CLI syntax error
+
+2. **Phase 2: Improve Quality**
+   - Enhance resource management with context managers
+   - Add consistent error handling
+   - Expand test coverage
+   - Complete type annotations
+
+3. **Phase 3: Architecture Improvements**
+   - Standardize service interfaces
+   - Reduce coupling between modules
+   - Improve CLI integration
+   - Update documentation
+
 ## Development Roadmap
 
 ### Milestone 1: Project Setup & PDF Processing ✅
@@ -318,12 +367,12 @@ customize rule settings if needed.
 - ✅ Fix docstring formatting and indentation
 - ✅ Auto-format code with black
 
-### Milestone 3: Question Extraction & Validation
+### Milestone 3: Question Extraction & Validation ✅
 
-- Develop pattern matching for existing questions
-- Implement question structure validation
-- Create Claude-based fallback extraction
-- Store extracted questions in database
+- ✅ Develop pattern matching for existing questions
+- ✅ Implement question structure validation
+- ✅ Create Claude-based fallback extraction
+- ✅ Store extracted questions in database
 
 ### Milestone 4: Question Generation
 
