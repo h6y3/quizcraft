@@ -7,7 +7,6 @@ import logging
 from typing import Dict, List, Any, Optional, Tuple
 
 from ..ai.service import AIService
-from ..pdf.extractor import segment_text
 
 from .extractor import QuestionExtractor
 from .validator import QuestionValidator
@@ -41,7 +40,7 @@ class QuestionService:
         self.validator = QuestionValidator()
         self.storage = QuestionStorage(db_path)
         self.use_ai_fallback = use_ai_fallback
-        
+
         if use_ai_fallback:
             self.ai_service = AIService()
         else:
@@ -68,52 +67,60 @@ class QuestionService:
             "invalid_questions": 0,
             "stored_questions": 0,
         }
-        
+
         # Count potential question segments
         for segment in segments:
             if segment["type"] == "potential_question":
                 stats["potential_question_segments"] += 1
-        
+
         # Extract questions using pattern matching
         pattern_questions = self.extractor.extract_questions(segments)
         stats["pattern_extracted"] = len(pattern_questions)
-        
+
         # Validate extracted questions
-        valid_questions, invalid_questions = self.validator.validate_question_set(
-            pattern_questions
+        valid_questions, invalid_questions = (
+            self.validator.validate_question_set(pattern_questions)
         )
         stats["invalid_questions"] = len(invalid_questions)
-        
+
         # Try to fix invalid questions
         fixed_questions = []
         for question, errors in invalid_questions:
             fixed_question, fixes = self.validator.fix_common_issues(question)
             if fixes:
                 # Re-validate the fixed question
-                is_valid, new_errors = self.validator.validate_question(fixed_question)
+                is_valid, new_errors = self.validator.validate_question(
+                    fixed_question
+                )
                 if is_valid:
                     fixed_questions.append(fixed_question)
                     logger.info(f"Fixed question: {', '.join(fixes)}")
-        
+
         # Combine valid and fixed questions
         all_questions = valid_questions + fixed_questions
-        
+
         # Use AI fallback for extraction if enabled and we have few questions
         ai_questions = []
         if self.use_ai_fallback and stats["pattern_extracted"] < 5:
-            ai_questions = self._extract_with_ai_fallback(segments, source_file)
+            ai_questions = self._extract_with_ai_fallback(
+                segments, source_file
+            )
             stats["ai_extracted"] = len(ai_questions)
-            
+
             # Validate AI-generated questions
-            valid_ai, invalid_ai = self.validator.validate_question_set(ai_questions)
+            valid_ai, invalid_ai = self.validator.validate_question_set(
+                ai_questions
+            )
             all_questions.extend(valid_ai)
             stats["invalid_questions"] += len(invalid_ai)
-        
+
         # Store valid questions
         if source_file and all_questions:
-            question_ids = self.storage.store_questions(all_questions, source_file)
+            question_ids = self.storage.store_questions(
+                all_questions, source_file
+            )
             stats["stored_questions"] = len(question_ids)
-        
+
         return all_questions, stats
 
     def _extract_with_ai_fallback(
@@ -131,27 +138,28 @@ class QuestionService:
         """
         if not self.ai_service:
             return []
-        
+
         # Prepare context from segments
         combined_text = "\n\n".join([segment["text"] for segment in segments])
-        
-        # Generate cache key from source file if available
-        cache_key_prefix = None
+
+        # Note: cache_key_prefix generation logic kept for future use
+        # if needed for caching extraction results
         if source_file:
-            cache_key_prefix = f"extract_{os.path.basename(source_file)}"
-        
+            # This would be used for caching if implemented
+            pass
+
         # Create a custom prompt for extraction
         extraction_prompt = """
-        Analyze the following educational content and extract existing multiple-choice 
-        questions. DO NOT create new questions - only extract questions that are already 
-        present in the text.
-        
+        Analyze the following educational content and extract existing
+        multiple-choice questions. DO NOT create new questions - only extract
+        questions that are already in the text.
+
         For each question you identify:
         1. Extract the question text exactly as written
         2. Identify all options (A, B, C, D, etc.)
         3. Determine the correct answer if indicated
         4. Extract any explanation if provided
-        
+
         Format your response as valid JSON with this structure:
         ```json
         {
@@ -170,11 +178,11 @@ class QuestionService:
           ]
         }
         ```
-        
-        If you cannot identify any multiple-choice questions in the text, return an empty 
-        array for "questions".
+
+        If you cannot identify any questions in the text, return
+        an empty array for "questions".
         """
-        
+
         try:
             # Use AI service to extract questions
             result = self.ai_service.client.generate_response(
@@ -183,21 +191,23 @@ class QuestionService:
                 max_tokens=4000,
                 temperature=0.0,  # Use lower temperature for extraction
             )
-            
+
             # Parse and validate the response
-            questions_json = self.ai_service.client.validate_and_fix_json_response(
-                result["content"]
+            questions_json = (
+                self.ai_service.client.validate_and_fix_json_response(
+                    result["content"]
+                )
             )
-            
+
             # Convert to Question objects
             questions = []
             if "questions" in questions_json:
                 for q_data in questions_json["questions"]:
                     question = Question.from_dict(q_data)
                     questions.append(question)
-            
+
             return questions
-            
+
         except Exception as e:
             logger.error(f"AI extraction error: {str(e)}")
             return []
@@ -241,7 +251,7 @@ class QuestionService:
             Dictionary of question statistics
         """
         total = self.storage.count_questions(source_file=source_file)
-        
+
         # Get counts by difficulty
         difficulty_counts = {}
         for difficulty in ["easy", "medium", "hard"]:
@@ -250,7 +260,7 @@ class QuestionService:
             )
             if count > 0:
                 difficulty_counts[difficulty] = count
-        
+
         # Get counts by category if categories exist
         category_counts = {}
         questions = self.storage.get_questions(source_file=source_file)
@@ -259,7 +269,7 @@ class QuestionService:
                 category_counts[question.category] = (
                     category_counts.get(question.category, 0) + 1
                 )
-        
+
         return {
             "total_questions": total,
             "by_difficulty": difficulty_counts,
@@ -286,7 +296,7 @@ class QuestionService:
             QuestionSet object with selected questions
         """
         selected_questions = []
-        
+
         # If categories provided, get questions from each category
         if categories:
             questions_per_category = max(1, count // len(categories))
@@ -297,7 +307,7 @@ class QuestionService:
                     limit=questions_per_category,
                 )
                 selected_questions.extend(category_questions)
-        
+
         # If difficulties provided, ensure distribution across difficulties
         elif difficulties:
             questions_per_difficulty = max(1, count // len(difficulties))
@@ -308,17 +318,17 @@ class QuestionService:
                     limit=questions_per_difficulty,
                 )
                 selected_questions.extend(difficulty_questions)
-        
+
         # Otherwise, just get the requested number of questions
         else:
             selected_questions = self.storage.get_questions(
                 source_file=source_file, limit=count
             )
-        
+
         # Ensure we don't exceed the requested count
         if len(selected_questions) > count:
             selected_questions = selected_questions[:count]
-        
+
         # Create metadata for the question set
         metadata = {
             "source_file": source_file,
@@ -326,5 +336,5 @@ class QuestionService:
             "difficulties": difficulties,
             "total_questions": len(selected_questions),
         }
-        
+
         return QuestionSet(questions=selected_questions, metadata=metadata)

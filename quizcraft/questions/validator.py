@@ -2,7 +2,7 @@
 Question validation module for ensuring question quality and structure
 """
 
-from typing import Dict, List, Any, Optional, Tuple
+from typing import List, Optional, Tuple
 
 from .models import Question
 
@@ -96,7 +96,7 @@ class QuestionValidator:
         ):
             if question.correct_answer not in question.options:
                 errors.append(
-                    f"Correct answer '{question.correct_answer}' not in options"
+                    f"Answer '{question.correct_answer}' not in options"
                 )
 
         return len(errors) == 0, errors
@@ -125,7 +125,9 @@ class QuestionValidator:
 
         return valid_questions, invalid_questions
 
-    def fix_common_issues(self, question: Question) -> Tuple[Question, List[str]]:
+    def fix_common_issues(
+        self, question: Question
+    ) -> Tuple[Question, List[str]]:
         """
         Attempt to fix common issues in a question
 
@@ -153,7 +155,9 @@ class QuestionValidator:
             and fixed_question.question_text
             and not fixed_question.question_text.strip().endswith("?")
         ):
-            fixed_question.question_text = fixed_question.question_text.strip() + "?"
+            fixed_question.question_text = (
+                fixed_question.question_text.strip() + "?"
+            )
             fixes.append("Added missing question mark")
 
         # Standardize option keys to uppercase
@@ -170,9 +174,12 @@ class QuestionValidator:
         if (
             hasattr(fixed_question, "correct_answer")
             and fixed_question.correct_answer
-            and fixed_question.correct_answer.upper() != fixed_question.correct_answer
+            and fixed_question.correct_answer.upper()
+            != fixed_question.correct_answer
         ):
-            fixed_question.correct_answer = fixed_question.correct_answer.upper()
+            fixed_question.correct_answer = (
+                fixed_question.correct_answer.upper()
+            )
             fixes.append("Standardized correct answer to uppercase")
 
         return fixed_question, fixes

@@ -69,7 +69,7 @@ class QuestionGenerationPrompt(PromptTemplate):
         )
 
         user_prompt_template = """
-Create {num_questions} multiple-choice questions based on the following 
+Create {num_questions} multiple-choice questions based on the following
 educational content. The questions should be at {difficulty} difficulty level.
 
 For each question:

@@ -16,7 +16,7 @@ CLAUDE_SPECIAL_CHAR_MULTIPLIER = 2.0  # Special characters use more tokens
 def estimate_token_count(text: str) -> int:
     """
     Estimate the number of tokens in text for Claude models.
-    This is a rough approximation, but useful for ensuring we don't exceed 
+    This is a rough approximation, but useful for ensuring we don't exceed
     limits.
 
     Args:

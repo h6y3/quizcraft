@@ -129,8 +129,8 @@ def handle_extract_command(args: argparse.Namespace) -> int:
             error_reason = result.get("reason", "Unknown reason")
             logger.error(f"Failed to extract text: {error_reason}")
             print(
-                f"Error: Failed to extract text from {args\
-                    .pdf_path}: {error_reason}",
+                f"Error: Failed to extract text from {args.pdf_path}: "
+                f"{error_reason}",
                 file=sys.stderr,
             )
             return 1
@@ -162,8 +162,8 @@ def handle_extract_command(args: argparse.Namespace) -> int:
                 ):  # Show the first 3 segments
                     preview = seg["text"][:100].replace("\n", " ")
                     print(
-                        f"Segment {i+1} ({seg\
-                            .get('type', 'unknown')}): {preview}..."
+                        f"Segment {i + 1} ({seg.get('type', 'unknown')}): "
+                        f"{preview}..."
                     )
                 if len(result["segments"]) > 3:
                     print(
@@ -236,8 +236,8 @@ def handle_generate_command(args: argparse.Namespace) -> int:
 
         # Generate questions
         print(
-            f"Generating {args\
-                .num_questions} questions at {args.difficulty} difficulty..."
+            f"Generating {args.num_questions} questions at "
+            f"{args.difficulty} difficulty..."
         )
         generation_result = ai_service.generate_questions(
             context=context,
@@ -261,8 +261,8 @@ def handle_generate_command(args: argparse.Namespace) -> int:
         # Show token usage
         token_usage = generation_result["token_usage"]
         print(
-            f"Token usage: {token_usage['input_tokens']} input,
-                {token_usage['output_tokens']} output"
+            f"Token usage: {token_usage['input_tokens']} input, "
+            f"{token_usage['output_tokens']} output"
         )
 
         # Mention if from cache

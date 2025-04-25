@@ -1,5 +1,6 @@
 """
-Questions module for extracting and validating questions from educational content
+Questions module for extracting and validating questions from educational
+content
 """
 
 from .models import Question, QuestionSet

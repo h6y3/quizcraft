@@ -5,9 +5,9 @@ Storage module for questions using SQLite database
 import json
 import os
 import sqlite3
-from typing import Dict, List, Any, Optional, Tuple
+from typing import List, Optional
 
-from .models import Question, QuestionSet
+from .models import Question
 
 
 class QuestionStorage:
@@ -60,7 +60,9 @@ class QuestionStorage:
         conn.commit()
         conn.close()
 
-    def store_question(self, question: Question, source_file: Optional[str] = None) -> int:
+    def store_question(
+        self, question: Question, source_file: Optional[str] = None
+    ) -> int:
         """
         Store a single question in the database
 
@@ -97,7 +99,7 @@ class QuestionStorage:
         question_id = cursor.lastrowid
         conn.commit()
         conn.close()
-        
+
         return question_id
 
     def store_questions(
@@ -115,17 +117,18 @@ class QuestionStorage:
         """
         question_ids = []
         conn = sqlite3.connect(self.db_path)
-        
+
         try:
             conn.execute("BEGIN TRANSACTION")
             cursor = conn.cursor()
-            
+
             for question in questions:
                 cursor.execute(
                     """
                     INSERT INTO questions (
                         question_text, options, correct_answer, explanation,
-                        source_page, source_text, difficulty, category, source_file
+                        source_page, source_text, difficulty, category,
+                        source_file
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
@@ -141,14 +144,14 @@ class QuestionStorage:
                     ),
                 )
                 question_ids.append(cursor.lastrowid)
-            
+
             conn.commit()
         except Exception as e:
             conn.rollback()
             raise e
         finally:
             conn.close()
-        
+
         return question_ids
 
     def get_question(self, question_id: int) -> Optional[Question]:

@@ -330,12 +330,50 @@ After completing Milestone 3, we've identified areas that need improvement:
 
 ### Refactoring Plan
 
-1. **Phase 1: Fix Critical Issues**
-   - Apply Black formatter to all code
-   - Remove unused imports
-   - Fix line length violations
+1. **Phase 1: Fix Critical Issues** ✅
+   - ✅ Apply Black formatter to all code
+   - ✅ Remove unused imports
+   - ✅ Fix line length violations
    - Create custom exception classes
-   - Fix CLI syntax error
+   - ✅ Fix CLI syntax error
+
+#### Lessons Learned from Phase 1 Refactoring
+
+During our Phase 1 refactoring, we discovered several important patterns and techniques:
+
+1. **Fixing Line Length Issues**:
+   - For docstrings and comments, break lines at logical points
+   - When breaking f-strings, use multiple f-strings with proper indentation:
+     ```python
+     # Good pattern
+     print(
+         f"First part of message "
+         f"second part of message"
+     )
+     
+     # Avoid backslash continuation in brackets
+     # Bad pattern
+     print(
+         f"Error in file {file_name\
+             .strip()}: {error_message}"
+     )
+     ```
+
+2. **Handling Unused Imports**:
+   - Sometimes imports are added for future use; in such cases, add a comment explaining 
+     why the import is needed but not used
+
+3. **Common Flake8 Issues**:
+   - E502: Redundant backslashes between brackets (often in multi-line strings)
+   - E128: Continuation line under-indented for visual indent
+   - W291: Trailing whitespace at end of lines
+   - W391: Blank line at end of file
+
+4. **Black Formatting Limitations**:
+   - Black handles most code formatting well, but may not fix specific issues like:
+     - Trailing whitespace in docstrings/comments
+     - Line length violations in comments
+     - Proper splitting of f-strings across lines
 
 2. **Phase 2: Improve Quality**
    - Enhance resource management with context managers

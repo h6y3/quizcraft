@@ -24,7 +24,7 @@ class Question:
 
         Args:
             question_text: The question text
-            options: Dictionary of options (e.g., {"A": "Option A", "B": "Option B"})
+            options: Dictionary of options (e.g., {"A": "Option A", "B": "B"})
             correct_answer: The correct answer key (e.g., "A")
             explanation: Explanation of the correct answer
             source_page: Page number where the question was found
@@ -86,7 +86,9 @@ class QuestionSet:
     """Represents a collection of questions"""
 
     def __init__(
-        self, questions: List[Question], metadata: Optional[Dict[str, Any]] = None
+        self,
+        questions: List[Question],
+        metadata: Optional[Dict[str, Any]] = None,
     ):
         """
         Initialize a QuestionSet object
